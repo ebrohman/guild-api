@@ -1,0 +1,4 @@
+outgoing:
+  body: "Hi there"
+  sender: bob
+  recipient: jennifer
