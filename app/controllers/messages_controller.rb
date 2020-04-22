@@ -10,6 +10,16 @@ class MessagesController < ApplicationController
                                         sender: sender)
   end
 
+  def create
+    Message.create(create_message_params).then do |message|
+      if message.valid?
+        render json: message, status: :created
+      else
+        render json: message.errors, status: :unprocessable_entity
+      end
+    end
+  end
+
   private
 
   def recipient
@@ -20,8 +30,16 @@ class MessagesController < ApplicationController
     @sender ||= User.find(_params["sender_id"])
   end
 
+  def create_message_params
+    {
+      sender: sender,
+      recipient: recipient,
+      body: _params["body"]
+    }
+  end
+
   def _params
-    params.permit(:recipient_id, :sender_id).to_h
+    params.permit(:recipient_id, :sender_id, :body).to_h
   end
 
   def message_relation
