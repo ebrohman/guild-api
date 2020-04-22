@@ -37,6 +37,12 @@ RSpec.describe "GET - /messages/:recipient_id/recent" do
       it "limits the response json to 100 messages" do
         expect(parsed_response.length).to eq 100
       end
+
+      it "orders the messages by most recent first" do
+        recent_item = parsed_response.first["created_at"]
+        older_item  = parsed_response.last["created_at"]
+        expect(Time.parse(recent_item) > Time.parse(older_item)).to be true
+      end
     end
 
     context "when there are messages that are out of the date window" do
