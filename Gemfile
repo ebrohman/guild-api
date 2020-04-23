@@ -36,6 +36,7 @@ group :development, :test do
   gem 'capybara'
   gem 'guard-rspec'
   gem 'rubocop'
+  gem 'faker'
 end
 
 group :development do
