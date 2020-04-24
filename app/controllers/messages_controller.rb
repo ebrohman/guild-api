@@ -2,12 +2,12 @@
 
 class MessagesController < ApplicationController
   def recent
-    render json: message_relation.where(recipient: recipient)
+    render json: Message.recent.where(recipient: recipient)
   end
 
   def recent_from_sender
-    render json: message_relation.where(recipient: recipient,
-                                        sender: sender)
+    render json: Message.recent.where(recipient: recipient,
+                                      sender: sender)
   end
 
   def create
@@ -40,11 +40,5 @@ class MessagesController < ApplicationController
 
   def _params
     params.permit(:recipient_id, :sender_id, :body).to_h
-  end
-
-  def message_relation
-    Message.where(created_at: (Time.current - 1.month)..Time.current)
-           .limit(100)
-           .order(created_at: :desc)
   end
 end
